@@ -38,9 +38,20 @@ async def read_all_books():
 # async def read_all_books(dynamic_param: str):
 #     return {'dynamic_param':dynamic_param}
 
+# Path Parameter: A path parameter is a variable in the URL path that lets you pass dynamic values to your API endpoint.
 @app.get("/books/{book_title}")
 async def read_all_books(book_title :str):
     for book in BOOKS:
         if book.get('Title').casefold() == book_title.casefold():       # if Value from list == input value (check main.pt to understand .get() and .casefold()
             return book
 
+
+# Query Parameter: Query Parameter is a key-value pair added to the end of a URL (after ?) to send extra information to an API endpoint.
+#eg: LocalURL/books/?category=math
+@app.get("/books/")
+async def read_category_by_query(category :str):
+    books_to_return = []
+    for book in BOOKS:
+        if book.get('Category').casefold() == category.casefold():
+            books_to_return.append(book)
+    return books_to_return
