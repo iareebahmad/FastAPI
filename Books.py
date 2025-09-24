@@ -26,14 +26,21 @@ async def read_all_books():
 # async def read_all_books(dynamic_param: str):
 #     return {'dynamic_param':dynamic_param}
 
-# Order matter with path params : Since this comes after dynamic parameter, FastAPI will never run this.
-# Instead, when you go to the API Endpoint, you'll find {'dynamuc_param':'Your input'} as output and not {'book_title': 'Your input'}
+# Order matter with path params: Since this comes after dynamic parameter, FastAPI will never run this.
+# Instead, when you go to the API Endpoint, you'll find {'dynamic_param':'Your input'} as output and not {'book_title': 'Your input'}
 # FastAPI looks at all fn from top to bottom and async def read_all_books(dynamic_param: str) comes first, so @app.get("/books/mybook") won't run
 @app.get("/books/mybook")
 async def read_all_books():
     return {'book_title': 'My Favourite Book!'}
 
 # Shifting Dynamic Parameter to the last
-@app.get("/books/{dynamic_param}")
-async def read_all_books(dynamic_param: str):
-    return {'dynamic_param':dynamic_param}
+# @app.get("/books/{dynamic_param}")
+# async def read_all_books(dynamic_param: str):
+#     return {'dynamic_param':dynamic_param}
+
+@app.get("/books/{book_title}")
+async def read_all_books(book_title :str):
+    for book in BOOKS:
+        if book.get('Title').casefold() == book_title.casefold():       # if Value from list == input value (check main.pt to understand .get() and .casefold()
+            return book
+
