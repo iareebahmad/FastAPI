@@ -73,5 +73,5 @@ async def read_category_by_query(book_author :str, category :str):
 
 # POST METHODS : Used to create data
 @app.post("/books/create_book")
-async def create_book(new_book = Body()):       #POST Methods can have a body. not GET methods
+async def create_book(new_book=Body()):
     BOOKS.append(new_book)
