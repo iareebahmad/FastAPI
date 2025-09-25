@@ -8,7 +8,7 @@ BOOKS = [
     {'Title': 'Title Three','Author': 'Author Three','Category':'History'},
     {'Title': 'Title Four','Author': 'Author Four','Category':'Maths'},
     {'Title': 'Title Five', 'Author': 'Author Five','Category':'Maths'},
-    {'Title': 'Title Six','Author': 'Author Two','Category':'Maths'}
+    {'Title': 'Title Six','Author': 'Author Two','Category':'Science'}
 ]
 # Adding Endpoints
 
@@ -58,6 +58,7 @@ async def read_category_by_query(category :str):
 
 # Path Parameter + Query Parameter
 # ex: LocalURL/books/author%20four/?category=science
+#URL/Dynamic Path Param/ Query Param
 @app.get("/books/{book_author}/")
 async def read_category_by_query(book_author :str, category :str):
     books_to_return = []
@@ -65,3 +66,5 @@ async def read_category_by_query(book_author :str, category :str):
         if book.get('Author').casefold() == book_author.casefold() and book.get('Category').casefold() == category.casefold():
             books_to_return.append(book)
     return books_to_return
+
+# typically : Path Param: TO find the location and Query Param: To Filter the data we want
