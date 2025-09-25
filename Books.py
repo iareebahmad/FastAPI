@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import Body, FastAPI
 
 app = FastAPI()
 
@@ -10,6 +10,8 @@ BOOKS = [
     {'Title': 'Title Five', 'Author': 'Author Five','Category':'Maths'},
     {'Title': 'Title Six','Author': 'Author Two','Category':'Science'}
 ]
+
+# GET METHODS
 # Adding Endpoints
 
 @app.get("/")
@@ -68,3 +70,8 @@ async def read_category_by_query(book_author :str, category :str):
     return books_to_return
 
 # typically : Path Param: TO find the location and Query Param: To Filter the data we want
+
+# POST METHODS : Used to create data
+@app.post("/books/create_book")
+async def create_book(new_book = Body()):       #POST Methods can have a body. not GET methods
+    BOOKS.append(new_book)
