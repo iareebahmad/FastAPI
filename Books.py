@@ -92,3 +92,21 @@ async def delete_book(book_title :str):
             BOOKS.pop(i)
             break
 
+# Task : Create a new API Endpoint that can fetch all books from a specific author using either Path Parameters or Query Parameters.
+#Path Parameter
+# @app.get("/books/byauthor/{author}")
+# async def book_by_author(author :str):
+#     all_book_by_author = []
+#     for book in BOOKS:
+#         if book.get('Author').casefold() == author.casefold():
+#             all_book_by_author.append(book)
+#     return all_book_by_author
+
+# Query Parameter
+@app.get("/books/byauthor/")
+async def book_by_author(author :str):
+    all_book_by_author = []
+    for book in BOOKS:
+        if book.get('Author').casefold() == author.casefold():
+            all_book_by_author.append(book)
+    return all_book_by_author
