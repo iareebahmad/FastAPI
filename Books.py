@@ -84,4 +84,11 @@ async def update_book(updated_book=Body()):
         if BOOKS[i].get('Title').casefold() == updated_book.get('Title').casefold():
             BOOKS[i] = updated_book
 
+# DELETE Method: Used to delete data
+@app.delete("/books/delete_book/{book_title}")
+async def delete_book(book_title :str):
+    for i in range(len(BOOKS)):
+        if BOOKS[i].get('Title').casefold() == book_title.casefold():
+            BOOKS.pop(i)
+            break
 
