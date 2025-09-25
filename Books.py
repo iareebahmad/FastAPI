@@ -55,3 +55,13 @@ async def read_category_by_query(category :str):
         if book.get('Category').casefold() == category.casefold():
             books_to_return.append(book)
     return books_to_return
+
+# Path Parameter + Query Parameter
+# ex: LocalURL/books/author%20four/?category=science
+@app.get("/books/{book_author}/")
+async def read_category_by_query(book_author :str, category :str):
+    books_to_return = []
+    for book in BOOKS:
+        if book.get('Author').casefold() == book_author.casefold() and book.get('Category').casefold() == category.casefold():
+            books_to_return.append(book)
+    return books_to_return
