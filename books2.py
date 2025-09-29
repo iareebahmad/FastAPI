@@ -20,11 +20,28 @@ class Book:
 
 # Book Request from Pydantic
 class BookRequest(BaseModel):
-    id : Optional[int] = None  # means it can either be null or zero. No need to pass any value in post req for id, id gets assigned because of py fn find_book_id()
+    #id : Optional[int] = None  # means it can either be null or zero. No need to pass any value in post req for id, id gets assigned because of py fn find_book_id()
+    #or
+    id : Optional[int] = Field(description='ID is not needed on create', default= None)
     title :str = Field(min_length=3)
     author :str = Field(min_length=1)
     description :str = Field(min_length=1, max_length=100)
     rating :int = Field(gt=-1, lt=6)
+    # model_config adjusts the default values on swagger UI in Example Value section of the method
+    """
+    model_config in the BookRequest class helps define and enhance the input validation and representation of the request data in the Swagger documentation, making it easier for users to understand how to interact with your API effectively.
+    """
+    model_config = {
+        "json_schema_extra":{
+            "example":{
+                "title":"A new book",
+                "author":"codinwithroby",
+                "description":"A new description",
+                "rating": 5
+
+            }
+        }
+    }
 
 
 BOOKS = [
