@@ -101,7 +101,7 @@ async def read_book(book_id: int = Path(gt=0)):         #Validating path params
             return book
 
 # Fetch books by rating
-@app.get("/books/")
+@app.get("/books/")                                         # Validating query param
 async def read_book_by_rating(book_rating :int = Query(gt=0, lt=6)):
     books_to_return = []
     for book in BOOKS:
@@ -127,7 +127,7 @@ async def delete_book(book_id :int = Path(gt=0)):
 
 # Fetch book by publication date
 @app.get("/books/find_book/")
-async def book_by_date(book_date: int = Query(gt=1995, lt=2040)):
+async def book_by_date(book_date: int = Query(gt=1995, lt=2040)):       # Validating query param
     booklist_by_date = []
     for book in BOOKS:
         if book.published_date == book_date:
