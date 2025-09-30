@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Body,Path  #Path is used to validate path parameter
+from fastapi import FastAPI, Body,Path,Query  #Path is used to validate path parameter ans Query for validating query params
 from pydantic import BaseModel, Field
 from typing import Optional
 app = FastAPI()
@@ -102,7 +102,7 @@ async def read_book(book_id: int = Path(gt=0)):         #Validating path params
 
 # Fetch books by rating
 @app.get("/books/")
-async def read_book_by_rating(book_rating :int):
+async def read_book_by_rating(book_rating :int = Query(gt=0, lt=6)):
     books_to_return = []
     for book in BOOKS:
         if book.rating == book_rating:
@@ -127,7 +127,7 @@ async def delete_book(book_id :int = Path(gt=0)):
 
 # Fetch book by publication date
 @app.get("/books/find_book/")
-async def book_by_date(book_date: int):
+async def book_by_date(book_date: int = Query(gt=1995, lt=2040)):
     booklist_by_date = []
     for book in BOOKS:
         if book.published_date == book_date:
