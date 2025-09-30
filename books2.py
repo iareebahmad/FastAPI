@@ -9,14 +9,16 @@ class Book:
     author: str
     description: str
     rating: int
+    published_date: int
 
     #Constructor for the class
-    def __init__(self,id,title,author,description,rating):
+    def __init__(self,id,title,author,description,rating,published_date):
         self.id = id
         self.title = title
         self.author = author
         self.description = description
         self.rating = rating
+        self.published_date = published_date
 
 # Book Request from Pydantic
 class BookRequest(BaseModel):
@@ -27,6 +29,7 @@ class BookRequest(BaseModel):
     author :str = Field(min_length=1)
     description :str = Field(min_length=1, max_length=100)
     rating :int = Field(gt=-1, lt=6)
+    published_date: int
     # model_config adjusts the default values on swagger UI in Example Value section of the method
     """
     model_config in the BookRequest class helps define and enhance the input validation and representation of the request data in the Swagger documentation, making it easier for users to understand how to interact with your API effectively.
@@ -45,12 +48,12 @@ class BookRequest(BaseModel):
 
 
 BOOKS = [
-    Book(1, 'Computer Science Pro', 'codingwithroby', 'A very nice book!', 5),
-    Book(2, 'Be Fast with FastAPI', 'codingwithroby', 'A great book!', 5),
-    Book(3, 'Master Endpoints', 'codingwithroby', 'A awesome book!', 5),
-    Book(4, 'HP1', 'Author 1', 'Book Description', 2),
-    Book(5, 'HP2', 'Author 2', 'Book Description', 3),
-    Book(6, 'HP3', 'Author 3', 'Book Description', 1)
+    Book(1, 'Computer Science Pro', 'codingwithroby', 'A very nice book!', 5,1998),
+    Book(2, 'Be Fast with FastAPI', 'codingwithroby', 'A great book!', 5,2012),
+    Book(3, 'Master Endpoints', 'codingwithroby', 'A awesome book!', 5,2018),
+    Book(4, 'HP1', 'Author 1', 'Book Description', 2,2019),
+    Book(5, 'HP2', 'Author 2', 'Book Description', 3,2021),
+    Book(6, 'HP3', 'Author 3', 'Book Description', 1,2024)
 ]
 
 # API Endpoints
@@ -87,3 +90,44 @@ def find_book_id(book: Book):
     # else:
     #     book.id = 1
     return book
+
+# API Endpint
+# Find a book based on Book id
+@app.get("/books/{book_id}")
+async def read_book(book_id: int):
+    for book in BOOKS:
+        if book.id == book_id:
+            return book
+
+# Fetch books by rating
+@app.get("/books/")
+async def read_book_by_rating(book_rating :int):
+    books_to_return = []
+    for book in BOOKS:
+        if book.rating == book_rating:
+            books_to_return.append(book)
+    return books_to_return
+
+# Update an exisiting book by Book id
+@app.put("/books/update_book")
+async def update_book(book :BookRequest):
+    for i in range(len(BOOKS)):
+        if BOOKS[i].id == book.id:
+            BOOKS[i] = book
+
+# Delete a book
+@app.delete("/books/{book_id}")
+async def delete_book(book_id :int):
+    for i in range(len(BOOKS)):
+        if BOOKS[i].id == book_id:
+            BOOKS.pop(i)
+            break
+
+# Fetch book by publication date
+@app.get("/books/find_book/")
+async def book_by_date(book_date: int):
+    booklist_by_date = []
+    for book in BOOKS:
+        if book.published_date == book_date:
+            booklist_by_date.append(book)
+    return booklist_by_date
