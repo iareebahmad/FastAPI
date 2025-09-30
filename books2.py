@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Body
+from fastapi import FastAPI, Body,Path  #Path is used to validate path parameter
 from pydantic import BaseModel, Field
 from typing import Optional
 app = FastAPI()
@@ -95,7 +95,7 @@ def find_book_id(book: Book):
 # API Endpint
 # Find a book based on Book id
 @app.get("/books/{book_id}")
-async def read_book(book_id: int):
+async def read_book(book_id: int = Path(gt=0)):         #Validating path params
     for book in BOOKS:
         if book.id == book_id:
             return book
@@ -118,7 +118,7 @@ async def update_book(book :BookRequest):
 
 # Delete a book
 @app.delete("/books/{book_id}")
-async def delete_book(book_id :int):
+async def delete_book(book_id :int = Path(gt=0)):
     for i in range(len(BOOKS)):
         if BOOKS[i].id == book_id:
             BOOKS.pop(i)
