@@ -116,6 +116,7 @@ async def update_book(book :BookRequest):
         if BOOKS[i].id == book.id:
             BOOKS[i] = book
 
+
 # Delete a book
 @app.delete("/books/{book_id}")
 async def delete_book(book_id :int = Path(gt=0)):
