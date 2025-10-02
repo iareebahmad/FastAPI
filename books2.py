@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Body,Path,Query, HTTPException  #Path is used to validate path parameter ans Query for validating query params
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field       # Pydantic is used for validation of inputs
 from typing import Optional
 from starlette import status        #FastAPI is built using starlette, hence installing FastAPI means starlette is automatically installed
 
@@ -30,7 +30,7 @@ class BookRequest(BaseModel):
     title :str = Field(min_length=3)
     author :str = Field(min_length=1)
     description :str = Field(min_length=1, max_length=100)
-    rating :int = Field(gt=-1, lt=6)
+    rating :int = Field(gt=1, lt=6)
     published_date: int = Field(gt=1995, lt=2040)
     # model_config adjusts the default values on swagger UI in Example Value section of the method
     """
@@ -145,7 +145,7 @@ async def book_by_date(book_date: int = Query(gt=1995, lt=2040)):       # Valida
             booklist_by_date.append(book)
     return booklist_by_date
 """
-Status Code: Help Client to understand what happened on the server side application. They are internatonal standards on how a client/server should HANDLE THE RESULT OF A REQUEST
+Status Code: Help Client to understand what happened on the server side application. They are international standards on how a client/server should HANDLE THE RESULT OF A REQUEST
 - 1XX: Information Response: Request Processing
 - 2XX: Success: Request Successfully Complete
     - 200: OK
