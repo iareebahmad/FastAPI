@@ -14,7 +14,7 @@ class Book:
     description: str
     rating: int
     published_date: int
-
+    # Constructor initializing class attributes
     def __init__(self, id, title, author, description, rating, published_date):
         self.id = id
         self.title = title
